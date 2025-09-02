@@ -31,8 +31,7 @@ public class AuthController {
             "message", "Registrazione completata con successo"
         ));
     }
-
-    // Nel tuo contratto il login è GET con {nome_utente} ma voi avete l'email: qui uso email.
+    
     @GetMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest body) {
         Utente u = service.loginByEmail(body.email);
