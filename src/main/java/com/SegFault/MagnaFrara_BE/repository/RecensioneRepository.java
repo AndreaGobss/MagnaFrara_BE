@@ -34,6 +34,10 @@ public interface RecensioneRepository extends JpaRepository<Recensione, Long> {
     @Query("SELECT AVG(r.valutazione) FROM Recensione r WHERE r.utente.idUtente = :idUtente")
     Double calcolaMediaValutazioniUtente(@Param("idUtente") Long idUtente);
     
+    // Distribuzione voti per utente
+    @Query("SELECT r.valutazione as voto, COUNT(r) as count FROM Recensione r WHERE r.utente.idUtente = :idUtente GROUP BY r.valutazione")
+    java.util.List<Object[]> getDistribuzioneVotiUtente(@Param("idUtente") Long idUtente);
+    
     // Conta recensioni per utente
     @Query("SELECT COUNT(r) FROM Recensione r WHERE r.utente.idUtente = :idUtente")
     Long contaRecensioniUtente(@Param("idUtente") Long idUtente);

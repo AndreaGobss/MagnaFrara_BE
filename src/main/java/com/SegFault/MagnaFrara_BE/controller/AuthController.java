@@ -1,13 +1,12 @@
 package com.SegFault.MagnaFrara_BE.controller;
 
+import com.SegFault.MagnaFrara_BE.dto.LoginRequest;
 import com.SegFault.MagnaFrara_BE.dto.RegisterRequest;
 import com.SegFault.MagnaFrara_BE.entity.Utente;
 import com.SegFault.MagnaFrara_BE.service.AuthService;
+import java.util.Map;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import com.SegFault.MagnaFrara_BE.dto.LoginRequest;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -32,7 +31,7 @@ public class AuthController {
         ));
     }
     
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest body) {
         Utente u = service.loginByEmail(body.email);
         if (u == null || !u.getPassword().equals(body.password)) {

@@ -37,6 +37,15 @@ public class ListaRecensioniResponse {
         this.utente = utente;
     }
     
+    // Costruttore per recensioni di un utente (con stats)
+    public ListaRecensioniResponse(List<RecensioneResponse> recensioni, PaginationDTO pagination, 
+                                   UtenteInfoDTO utente, StatsDTO stats) {
+        this.recensioni = recensioni;
+        this.pagination = pagination;
+        this.utente = utente;
+        this.stats = stats;
+    }
+    
     // DTO per info ristorante
     public static class RistoranteInfoDTO {
         public Long id_ristorante;

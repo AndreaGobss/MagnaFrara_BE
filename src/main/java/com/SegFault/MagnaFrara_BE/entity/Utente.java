@@ -8,6 +8,7 @@ public class Utente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_utente")
     private Long idUtente;
 
     private String nome;

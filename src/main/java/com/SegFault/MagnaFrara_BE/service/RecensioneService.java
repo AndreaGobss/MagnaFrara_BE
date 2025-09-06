@@ -123,7 +123,15 @@ public class RecensioneService {
         ListaRecensioniResponse.UtenteInfoDTO utenteInfo = 
                 new ListaRecensioniResponse.UtenteInfoDTO(utente.getIdUtente(), utente.getNome(), utente.getCognome());
 
-        return new ListaRecensioniResponse(list, pagination, utenteInfo);
+        // Statistiche utente
+        Double avgValutazione = recensioneRepo.calcolaMediaValutazioniUtente(idUtente);
+        if (avgValutazione == null) avgValutazione = 0.0;
+        
+        Map<String, Long> distribuzione = getDistribuzioneVotiUtente(idUtente);
+        ListaRecensioniResponse.StatsDTO stats = 
+                new ListaRecensioniResponse.StatsDTO(avgValutazione, distribuzione);
+
+        return new ListaRecensioniResponse(list, pagination, utenteInfo, stats);
     }
 
     // -------- TUTTE LE RECENSIONI (generale)
@@ -149,6 +157,26 @@ public class RecensioneService {
     // -------- METODO PRIVATO: Distribuzione voti
     private Map<String, Long> getDistribuzioneVoti(Long idRistorante) {
         List<Object[]> results = recensioneRepo.getDistribuzioneVoti(idRistorante);
+        Map<String, Long> distribuzione = new HashMap<>();
+        
+        // Inizializza tutti i voti a 0
+        for (int i = 1; i <= 5; i++) {
+            distribuzione.put(String.valueOf(i), 0L);
+        }
+        
+        // Riempi con i risultati reali
+        for (Object[] result : results) {
+            Integer voto = (Integer) result[0];
+            Long count = (Long) result[1];
+            distribuzione.put(voto.toString(), count);
+        }
+        
+        return distribuzione;
+    }
+
+    // -------- METODO PRIVATO: Distribuzione voti utente
+    private Map<String, Long> getDistribuzioneVotiUtente(Long idUtente) {
+        List<Object[]> results = recensioneRepo.getDistribuzioneVotiUtente(idUtente);
         Map<String, Long> distribuzione = new HashMap<>();
         
         // Inizializza tutti i voti a 0

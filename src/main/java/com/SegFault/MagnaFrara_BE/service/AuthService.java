@@ -9,19 +9,25 @@ import org.springframework.stereotype.Service;
 public class AuthService {
     private final UtenteRepository repo;
 
-    public AuthService(UtenteRepository repo) { this.repo = repo; }
+    public AuthService(UtenteRepository repo) { 
+        this.repo = repo;
+    }
 
     public Utente register(RegisterRequest r) {
         Utente u = new Utente();
         u.setNome(r.nome);
         u.setCognome(r.cognome);
         u.setEmail(r.email);
-        u.setPassword(r.password); // (in seguito: BCrypt)
+        u.setPassword(r.password); // Password in chiaro per semplicità
         u.setGestore(Boolean.TRUE.equals(r.gestore));
         return repo.save(u);
     }
 
     public Utente loginByEmail(String email) {
         return repo.findByEmail(email).orElse(null);
+    }
+    
+    public boolean checkPassword(String rawPassword, String storedPassword) {
+        return rawPassword.equals(storedPassword); // Confronto semplice
     }
 }
