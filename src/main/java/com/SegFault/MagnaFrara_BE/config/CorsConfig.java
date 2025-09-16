@@ -16,11 +16,6 @@ public class CorsConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins(
                     "http://localhost:4200",
-                    "http://localhost:4201", 
-                    "http://localhost:4202",
-                    "http://127.0.0.1:4200",
-                    "http://127.0.0.1:4201",
-                    "http://127.0.0.1:4202",
                     "http://0.0.0.0:4200"
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
@@ -32,11 +27,7 @@ public class CorsConfig implements WebMvcConfigurer {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin("http://localhost:4200");
-        configuration.addAllowedOrigin("http://localhost:4201");
-        configuration.addAllowedOrigin("http://localhost:4202");
         configuration.addAllowedOrigin("http://127.0.0.1:4200");
-        configuration.addAllowedOrigin("http://127.0.0.1:4201");
-        configuration.addAllowedOrigin("http://127.0.0.1:4202");
         configuration.addAllowedOrigin("http://0.0.0.0:4200");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
